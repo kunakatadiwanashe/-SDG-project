@@ -1,6 +1,35 @@
+"use client"
+import axios from 'axios';
 import React from 'react'
+import toast from 'react-hot-toast';
+import { Navigate } from 'react-router-dom';
 
 const SignIn = () => {
+// const navigate = useNavigate();
+
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+const  handleSubmit = async (value: any) => {
+  try {
+    const response = await axios.post('/api/users/login', value);
+    const shouldRedirect = true;
+    if (response.data.success) {
+        toast.success(response.data.message);
+        toast("redirecting to home page");
+        localStorage.setItem("token", response.data.data);
+        return shouldRedirect ? <Navigate to="/home" /> : <div>stay</div>;
+        // navigate('/home');
+        
+    } else{
+        toast.error(response.data.message);
+    }
+    console.log(response)
+} catch(err) {
+    toast.error("something went wrong")
+    console.log(err)
+}
+};
+
+
   return (
     <div className='bg-white p-6 rounded-lg shadow-lg w-full max-w-lg flex flex-wrap justify-center'>
     
@@ -9,7 +38,7 @@ const SignIn = () => {
         </h2>
         <h2 className="text-2xl font-semibold text-center mb-6 text-blue-600">
         sign
-          {/* <Link href="/signIn">SignIn</Link> */}
+          {/* <Link href="/signIn">SignUp</Link> */}
         </h2>
 
 

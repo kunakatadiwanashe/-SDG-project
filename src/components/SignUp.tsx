@@ -4,19 +4,24 @@ import axios from 'axios'
 import toast from 'react-hot-toast'
 
 
+
 const SignUp = () => {
 
 
 const [name, setName] = useState('')
 const [email, setEmail] = useState('')
+const [password, setPassword] = useState('')
+
+// const  navigate = useNavigate();
+// const location = useLocation();
 
 const handleSubmit = async (e) => {
     e.preventDefault()
     try {
-        const response = await axios.post('/api/users', {name, email})
+        const response = await axios.post('/api/users', {name, email , password})
         if (response.data.success) {
             toast.success(response.data.message);
-            
+            console.log({ name, email ,password});
         } else{
             toast.error(response.data.message);
         }
@@ -70,6 +75,7 @@ const handleSubmit = async (e) => {
             Password
             <input
               type="password"
+              onChange={(e) => setPassword(e.target.value)}
               id="user_password"
               className="w-full px-4 py-2 border text-black border-gray-300 rounded-md   focus:outline-none focus:ring-2 focus:ring-indigo-500"
               placeholder="Enter your password"
