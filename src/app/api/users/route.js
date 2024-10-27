@@ -1,13 +1,3 @@
-// import connectionToDatabase from "@/lib/mongoose";
-// import User from "@/models/User";
-// import { NextResponse } from "next/server";
-// import bcrypt from "bcryptjs";
-// import jwt from "jsonwebtoken";
-
-
-
-
-
 import connectionToDatabase from "@/lib/mongoose";
 import User from "@/models/User";
 import { NextResponse } from "next/server";
@@ -83,6 +73,39 @@ export async function POST(request) {
 
 
 
+router.post("/login", async  (req, res) => {
+    try {
+        const user = await User.findOne({ email: req.body.email});
+        if (!user) {
+            return res
+            .status
+            .send({ message: "user does not exist", success: false });
+        }
+        const isMatch = await bcrypt.compare(req.body.password, user.password);
+        if  (isMatch) {
+            return res
+            .status(200)
+            .send({ message: "password is incorrect", success: false })
+        } else {
+            const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, {
+                expiresIn: "id"
+            });
+            res
+            .status(200)
+            .send({ message: "login successful", success: true, data: token });
+        }
+    } catch (error) {
+        console.log(error)
+        res
+        .status(500)
+        .send({ message: "Error logging in", success: false, error });
+    }
+}
+)
+
+
+
+module.export = router;
 
 
 
@@ -101,47 +124,6 @@ export async function POST(request) {
 
 
 
-
-
-
-
-
-
-
-
-
-
-// export async function POST(request) {
-
-
-//     try {
-//         await connectionToDatabase()
-//         const { name, email, password } = await request.json();
-
-//         const salt = await bcrypt.genSalt(10);
-//         const hashedPassword = await bcrypt.hash(password, salt);
-
-//         const newUser = new User({ name, email, password: hashedPassword });
-//         await newUser.save();
-//         const token = jwt.sign(
-//           { userId: newUser._id },
-//           process.env.JWT_SECRET, // Make sure to set this in your environment variables
-//           { expiresIn: '1h' } // Token expires in 1 hour
-//       );
-//       const userResponse = {
-//         _id: newUser._id,
-//         name: newUser.name,
-//         email: newUser.email,
-//         token: token
-//     };
-
-//     return NextResponse.json(userResponse, { status: 201 });
-        
-//     } catch (err) {
-//         console.log(err);
-//         return NextResponse.json({ error: 'Internal Server Error' }, { status: 500 })
-//     };
-// }
 
 
 

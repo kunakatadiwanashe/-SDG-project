@@ -44,7 +44,7 @@ const SignUp = () => {
 
       <h2 className="text-2xl font-semibold text-center mb-6 text-blue-600">
         sign
-        {/* <Link href="/signIn">SignIn</Link> */}
+       
       </h2>
 
       <form className="space-y-4 w-full" onSubmit={handleSubmit}>
@@ -90,9 +90,7 @@ const SignUp = () => {
         >
           {isRegistering ? "Register" : "Login"}
         </button>
-        {/* <button   type="submit"    className="w-full px-4 py-2 text-white  bg-indigo-500 rounded-md hover:bg-indigo-600 focus:outline-none focus:bg-indigo-700"  >
-              Register
-            </button> */}
+
       </form>
     </div>
   );
