@@ -20,8 +20,8 @@ export default function RootLayout({
         <SessionProvider>
             <html lang="en">
                 <body className={inter.className}>
-                    <Navbar />
-                    <div className="pt-20 min-h-screen flex flex-col">
+                    {/* <Navbar /> */}
+                    <div className="">
                         {children}
                     </div>
                 </body>
