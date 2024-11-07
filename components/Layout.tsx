@@ -2,46 +2,48 @@
 import Link from "next/link"
 import React from "react"
 // import { Link, useLocation } from 'react-router-dom'
+import { handleSignOut } from '@/app/actions/authActions';
+import { Button } from "./ui/button";
 
 
 
 const Layout = ({children}) => {
 
-  const userMenu = [
-    {
-      name: "home",
-      path: "/",
+  // const userMenu = [
+  //   {
+  //     name: "home",
+  //     path: "/",
 
-    },
-    {
-      name: "appointments",
-      path: "/appointments",
+  //   },
+  //   {
+  //     name: "appointments",
+  //     path: "/appointments",
 
-    },
-    {
-      name: "apply doc",
-      path: "/applydoc",
+  //   },
+  //   {
+  //     name: "apply doc",
+  //     path: "/applydoc",
 
-    },
-  ];
+  //   },
+  // ];
 
-  const adminMenu = [
-    {
-      name: "home",
-      path: "/",
+  // const adminMenu = [
+  //   {
+  //     name: "home",
+  //     path: "/",
 
-    },
-    {
-      name: "appointments",
-      path: "/appointments",
+  //   },
+  //   {
+  //     name: "appointments",
+  //     path: "/appointments",
 
-    },
-    {
-      name: "apply to be a doc",
-      path: "/applyToBeDoc",
+  //   },
+  //   {
+  //     name: "apply to be a doc",
+  //     path: "/applyToBeDoc",
 
-    },
-  ];
+  //   },
+  // ];
 
 
 
@@ -55,7 +57,15 @@ const Layout = ({children}) => {
           <Link href="/appointments">Appointments</Link>
           <Link href="/bookDoctor">Book Doctor</Link>
           <Link href="/profile">Pro</Link>
-          <button>LogOut</button>
+       
+          <form action={handleSignOut}>
+                    <Button variant="default" type="submit">
+                        Sign Out
+                    </Button>
+                </form>
+
+
+
           </div>
         </div>
 
