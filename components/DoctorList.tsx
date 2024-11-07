@@ -1,6 +1,7 @@
 // components/DoctorList.tsx
 
 import { Doctor } from "@prisma/client";
+import AppointmentBookingForm from "./AppointmentBookingForm";
 
 interface DoctorListProps {
   doctors: Doctor[];
@@ -15,6 +16,10 @@ export default function DoctorList({ doctors }: DoctorListProps) {
           <p>Specialization: {doctor.specialization}</p>
           <p>Experience: {doctor.experience}</p>
           <p>Email: {doctor.email}</p>
+          <div className="mt-4">
+            <AppointmentBookingForm doctorId={doctor.id} />
+          </div>
+          
         </div>
       ))}
     </div>

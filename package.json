@@ -11,7 +11,11 @@
   "dependencies": {
     "@auth/prisma-adapter": "^2.4.2",
     "@hookform/resolvers": "^3.9.0",
+<<<<<<< HEAD
+    "@prisma/client": "^5.22.0",
+=======
     "@prisma/client": "^5.21.1",
+>>>>>>> b7d7d9d9c37877a3b11cc7e126f48ab98bd51844
     "@radix-ui/react-icons": "^1.3.0",
     "@radix-ui/react-label": "^2.1.0",
     "@radix-ui/react-slot": "^1.1.0",
@@ -21,6 +25,7 @@
     "lucide-react": "^0.428.0",
     "next": "14.2.5",
     "next-auth": "5.0.0-beta.20",
+    "nextjs-fullstack-auth": "file:",
     "react": "^18",
     "react-dom": "^18",
     "react-hook-form": "^7.53.1",

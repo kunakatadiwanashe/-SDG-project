@@ -1,3 +1,5 @@
+<<<<<<< HEAD
+=======
 // "use client";
 
 // import { useState } from "react";
@@ -88,6 +90,7 @@
 //     </div>
 //   );
 // }
+>>>>>>> b7d7d9d9c37877a3b11cc7e126f48ab98bd51844
 
 
 import DoctorApplicationForm from "@/components/DoctorApplicationForm";
