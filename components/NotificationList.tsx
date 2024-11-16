@@ -9,19 +9,24 @@ interface NotificationListProps {
 export default function NotificationList({ userId }: NotificationListProps) {
     const [notifications, setNotifications] = useState<Notification[]>([]);
     const [error, setError] = useState<string | null>(null);
+    const [loading, setLoading] = useState<boolean>(true); // State for loading
 
     useEffect(() => {
         const fetchNotifications = async () => {
+            setLoading(true); // Set loading to true before fetching
             try {
                 const response = await fetch(`/api/notifications/${userId}`);
                 if (!response.ok) {
                     throw new Error('Failed to fetch notifications');
                 }
                 const data = await response.json();
+                console.log('Fetched notifications:', data);
                 setNotifications(data.notifications);
             } catch (error) {
                 console.error('Error fetching notifications:', error);
                 setError('Failed to load notifications. Please try again later.');
+            } finally {
+                setLoading(false); // Set loading to false after fetching
             }
         };
 
@@ -54,8 +59,9 @@ export default function NotificationList({ userId }: NotificationListProps) {
     return (
         <div>
             <h2 className="text-xl font-bold mb-4">Notifications</h2>
+            {loading && <p>Loading notifications...</p>} {/* Show loading message */}
             {error && <p className="text-red-500">{error}</p>}
-            {notifications.length === 0 ? (
+            {notifications.length === 0 && !loading ? ( // Check if not loading
                 <p>No new notifications</p>
             ) : (
                 <ul className="space-y-2">

@@ -6,15 +6,16 @@ import NotificationList from "@/components/NotificationList";
 
 export default async function Home() {
   const session = await auth();
+
   return (
-    <Layout>
+    <Layout user={session?.user} >
       <main className="grow flex items-center justify-center p-4">
         <Card className="max-w-sm">
           <CardHeader>
             <Image
               className="rounded-lg"
               src="https://images.pexels.com/photos/1374510/pexels-photo-1374510.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2"
-              alt="img"
+              alt="A welcoming image for the homepage"
               width={500}
               height={500}
               priority
@@ -32,7 +33,7 @@ export default async function Home() {
         </Card>
 
         <div className="notf">
-          {session.user.role === "doctor" && (
+          {session?.user?.role === "doctor" && (
             <NotificationList userId={session.user.id} />
           )}
         </div>

@@ -10,6 +10,20 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+model Donation {
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  amount         Float
+  createdAt      DateTime @default(now())
+  helpRequestId  String?
+
+}
+
+model HelpRequest {
+     id          String   @id @default(auto()) @map("_id") @db.ObjectId
+    message   String
+    createdAt DateTime @default(now())
+}
+
 model Notification {
   id        String   @id @default(auto()) @map("_id") @db.ObjectId
   userId    String   @db.ObjectId
