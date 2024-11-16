@@ -1,17 +1,3 @@
-// import { auth } from "@/auth";
-
- 
-// export default async function Page() {
-//   const session = await auth();
- 
-//   if (session?.user?.role === "doctor") {
-//     return <p>welcome doctor {session?.user?.name}</p>;
-//   }
- 
-//   return <p>You are not a doctor</p>;
-// }
-
-// app/(pages)/doctors/page.tsx
 
 import { auth } from "@/auth";
 import prisma from "@/lib/prisma";

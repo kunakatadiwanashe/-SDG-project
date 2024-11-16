@@ -50,4 +50,7 @@ export const applyDocSchema = object({
     address: string({ required_error: "Address is required" })
         .min(1, "Address is required")
         .max(100, "Address must be less than 100 characters"),
+    phoneNumber: string({ required_error: "Phone Number is required" })
+        .min(1, "Phone Number is required")
+        .max(100, "Phone Number must be less than 100 characters"),
 });

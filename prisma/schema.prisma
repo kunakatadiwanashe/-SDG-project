@@ -19,6 +19,39 @@ model Appointment {
   updatedAt   DateTime @updatedAt
 }
 
+model Donation {
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  amount         Float
+  createdAt      DateTime @default(now())
+  helpRequestId  String?
+
+}
+
+model HelpRequest {
+     id          String   @id @default(auto()) @map("_id") @db.ObjectId
+    message   String
+    createdAt DateTime @default(now())
+}
+
+model Notification {
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  userId    String   @db.ObjectId
+  message   String
+  type      String
+  read      Boolean  @default(false)
+  createdAt DateTime @default(now())
+}
+
+model Appointment {
+  id          String   @id @default(auto()) @map("_id") @db.ObjectId
+  userId      String   @db.ObjectId
+  doctorId    String   @db.ObjectId
+  date        DateTime
+  status      String   @default("pending") // pending, confirmed, cancelled
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
 model User {
   id              String    @id @default(auto()) @map("_id") @db.ObjectId
   name            String?

@@ -17,6 +17,7 @@ export default function AppointmentBookingForm({ doctorId }: AppointmentBookingF
   const onSubmit = async (data: any) => {
     setIsSubmitting(true);
     setError(null);
+    setSuccess(false);
     
     try {
       const response = await fetch("/api/appointments", {
@@ -28,6 +29,7 @@ export default function AppointmentBookingForm({ doctorId }: AppointmentBookingF
           doctorId,
           date: data.appointmentDate,
         }),
+        credentials: 'include', // Important for auth
       });
 
       const result = await response.json();
@@ -54,7 +56,7 @@ export default function AppointmentBookingForm({ doctorId }: AppointmentBookingF
       )}
       {success && (
         <div className="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded mb-4">
-          Appointment booked successfully!
+          Appointment request sent successfully! Awaiting doctor's confirmation.
         </div>
       )}
       
@@ -74,7 +76,7 @@ export default function AppointmentBookingForm({ doctorId }: AppointmentBookingF
           disabled={isSubmitting}
           className="w-full bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600 disabled:bg-blue-300"
         >
-          {isSubmitting ? "Booking..." : "Book Appointment"}
+          {isSubmitting ? "Booking..." : "Request Appointment"}
         </button>
       </form>
     </div>

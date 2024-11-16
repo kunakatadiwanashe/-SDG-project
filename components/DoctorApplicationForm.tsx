@@ -59,6 +59,8 @@ export default function DoctorApplicationForm() {
         }
     };
 
+
+
     return (
         <div className="max-w-md mx-auto mt-8">
             <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
@@ -97,6 +99,8 @@ export default function DoctorApplicationForm() {
                     )}
                 </div>
 
+
+
                 <div>
                     <label className="block mb-2">Specialization</label>
                     <input
@@ -123,6 +127,18 @@ export default function DoctorApplicationForm() {
 
                 <div>
                     <label className="block mb-2">Address</label>
+                    <input
+                        {...register("address")}
+                        className="w-full px-3 py-2 border rounded"
+                        type="text"
+                    />
+                    {errors.address && (
+                        <p className="text-red-500 text-sm mt-1">{errors.address.message}</p>
+                    )}
+                </div>
+                
+                <div>
+                    <label className="block mb-2">Phone Number</label>
                     <input
                         {...register("address")}
                         className="w-full px-3 py-2 border rounded"
