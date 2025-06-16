@@ -46,9 +46,9 @@ export default function SignIn() {
   return (
     <div className="w-[100vw] flex">
       <div className="bg-blue-500 w-1/3 p-10 text-white h-[100vh]">
-        <h2 className="pb-[44px] text-[41px] font-bold">Welcome to Cared For! We're glad to have you here</h2>
+        <h2 className="pb-[44px] text-[41px] font-bold">Welcome to Cared For! We&apos;re glad to have you here</h2>
         <p className="pb-[60px]">Connect with Doctors, manage appointments, and access medical resources</p>
-        <h4 className="font-bold">Let's setup your account and explore more!</h4>
+        <h4 className="font-bold">Let&apos;s setup your account and explore more!</h4>
       </div>
       <div className="w-[100%] flex justify-center bg-slate-400">
         <div className="">
