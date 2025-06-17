@@ -2,7 +2,7 @@ import { NextResponse, NextRequest } from 'next/server';
 import prisma from "@/lib/prisma";
 import { auth } from "@/auth";
 import { sendNotificationToDoctor } from "@/lib/notification";
-   import { NextApiRequest, NextApiResponse } from 'next';
+
 
 export async function PATCH(req: Request, { params }: { params: { id: string } }) {
     try {
@@ -48,7 +48,7 @@ export async function PATCH(req: Request, { params }: { params: { id: string } }
 }
 
 
-export async function GET(req: NextApiRequest, { params }: { params: { id: string } }) {
+export async function GET(request: NextRequest, { params }: { params: { id: string } }) {
     const { id } = params;
     const session = await auth();
 
@@ -70,5 +70,5 @@ export async function GET(req: NextApiRequest, { params }: { params: { id: strin
         return NextResponse.json({ error: "Forbidden" }, { status: 403 });
     }
 
-    return NextResponse.json({ success: true, data: appointment });
+    return NextResponse.json({ id, message: 'Appointment fetched successfully' });
 }
