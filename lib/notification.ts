@@ -1,6 +1,6 @@
 import prisma from "./prisma";
 
-export async function sendNotificationToDoctor(doctorId: string, message: string): Promise<Notification> {
+export async function sendNotificationToDoctor(doctorId: string, message: string) {
     try {
         const notification = await prisma.notification.create({
             data: {
@@ -18,3 +18,4 @@ export async function sendNotificationToDoctor(doctorId: string, message: string
         throw new Error("Failed to send notification to doctor");
     }
 }
+

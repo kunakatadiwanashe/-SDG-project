@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server";
 import prisma from "@/lib/prisma";
 import { auth } from "@/auth";
-import { sendNotificationToUser } from "@/lib/notification"; // You'll need to create this function
+import { sendNotificationToDoctor } from "@/lib/notification"; // Changed to existing function
 
 export async function PATCH(req: Request, { params }: { params: { id: string } }) {
     try {
@@ -29,8 +29,8 @@ export async function PATCH(req: Request, { params }: { params: { id: string } }
             data: { status },
         });
 
-        // Send notification to user
-        await sendNotificationToUser(appointment.userId, `Your appointment has been ${status}`);
+        // Send notification to doctor
+        await sendNotificationToDoctor(appointment.userId, `Your appointment has been ${status}`);
 
         return NextResponse.json({ success: true, data: appointment });
 

@@ -56,7 +56,7 @@ export default function AppointmentBookingForm({ doctorId }: AppointmentBookingF
       )}
       {success && (
         <div className="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded mb-4">
-          Appointment request sent successfully! Awaiting doctor's confirmation.
+          Appointment request sent successfully! Awaiting doctor&apos;s confirmation.
         </div>
       )}
       
