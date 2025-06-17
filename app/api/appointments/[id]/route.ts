@@ -1,8 +1,7 @@
 import { NextResponse } from "next/server";
 import prisma from "@/lib/prisma";
 import { auth } from "@/auth";
-import { sendNotificationToDoctor } from "@/lib/notification"; // Changed to existing function
-import type { NextApiRequest, NextApiResponse } from 'next';
+import { sendNotificationToDoctor } from "@/lib/notification";
 
 export async function PATCH(req: Request, { params }: { params: { id: string } }) {
     try {
@@ -47,27 +46,40 @@ export async function PATCH(req: Request, { params }: { params: { id: string } }
     }
 }
 
+// Remove the old-style handler function below
 
+// ...existing code...
+// export default function handler(req: NextApiRequest, res: NextApiResponse) {
+//   if (req.method === 'GET') {
+//     const { userId } = req.query;
+//     res.status(200).json({ appointments: [] }); // Replace with real data
+//   } else {
+//     res.setHeader('Allow', ['GET']);
+//     res.status(405).json({ error: `Method ${req.method} Not Allowed` });
+//   }
+// }
+// ...existing code...
 
+export async function GET(req: Request, { params }: { params: { id: string } }) {
+    const session = await auth();
 
+    if (!session?.user) {
+        return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+    }
 
+    // Fetch the appointment by id
+    const appointment = await prisma.appointment.findUnique({
+        where: { id: params.id },
+    });
 
-export default function handler(req: NextApiRequest, res: NextApiResponse) {
-  if (req.method === 'GET') {
-    const { userId } = req.query;
-    res.status(200).json({ appointments: [] }); // Replace with real data
-  } else {
-    res.setHeader('Allow', ['GET']);
-    res.status(405).json({ error: `Method ${req.method} Not Allowed` });
-  }
-}
+    if (!appointment) {
+        return NextResponse.json({ error: "Appointment not found" }, { status: 404 });
+    }
 
-export async function GET(request: Request, { params }: { params: { userId: string } }) {
-  const session = await auth();
+    // Optionally, check if the user is allowed to view this appointment
+    if (appointment.userId !== session.user.id) {
+        return NextResponse.json({ error: "Forbidden" }, { status: 403 });
+    }
 
-  if (!session?.user || session.user.id !== params.userId) {
-    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
-  }
-
-
+    return NextResponse.json({ success: true, data: appointment });
 }
