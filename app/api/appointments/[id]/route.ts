@@ -1,4 +1,4 @@
-import { NextResponse } from "next/server";
+import { NextResponse, NextRequest } from 'next/server';
 import prisma from "@/lib/prisma";
 import { auth } from "@/auth";
 import { sendNotificationToDoctor } from "@/lib/notification";
@@ -46,26 +46,9 @@ export async function PATCH(req: Request, { params }: { params: { id: string } }
     }
 }
 
-// Remove the old-style handler function below
 
-// ...existing code...
-// export default function handler(req: NextApiRequest, res: NextApiResponse) {
-//   if (req.method === 'GET') {
-//     const { userId } = req.query;
-//     res.status(200).json({ appointments: [] }); // Replace with real data
-//   } else {
-//     res.setHeader('Allow', ['GET']);
-//     res.status(405).json({ error: `Method ${req.method} Not Allowed` });
-//   }
-// }
-// ...existing code...
-
-
-
-export async function GET(
-    req: Request,
-    context: { params: { id: string } }
-) {
+export async function GET(request: NextRequest, context: { params: { id: string } }) {
+     const { id } = context.params;
     const session = await auth();
 
     if (!session?.user) {
@@ -87,4 +70,6 @@ export async function GET(
     }
 
     return NextResponse.json({ success: true, data: appointment });
+    
+     return new Response(`Appointment ID: ${id}`);
 }
