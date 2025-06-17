@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 import prisma from "@/lib/prisma";
 import { auth } from "@/auth";
 import { sendNotificationToDoctor } from "@/lib/notification"; // Changed to existing function
+import type { NextApiRequest, NextApiResponse } from 'next';
 
 export async function PATCH(req: Request, { params }: { params: { id: string } }) {
     try {
@@ -44,4 +45,29 @@ export async function PATCH(req: Request, { params }: { params: { id: string } }
             { status: 400 }
         );
     }
+}
+
+
+
+
+
+
+export default function handler(req: NextApiRequest, res: NextApiResponse) {
+  if (req.method === 'GET') {
+    const { userId } = req.query;
+    res.status(200).json({ appointments: [] }); // Replace with real data
+  } else {
+    res.setHeader('Allow', ['GET']);
+    res.status(405).json({ error: `Method ${req.method} Not Allowed` });
+  }
+}
+
+export async function GET(request: Request, { params }: { params: { userId: string } }) {
+  const session = await auth();
+
+  if (!session?.user || session.user.id !== params.userId) {
+    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+  }
+
+
 }

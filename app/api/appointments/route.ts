@@ -63,29 +63,72 @@ export async function POST(req: Request) {
     }
 }
 
-export async function GET(
-  req: Request,
-  { params }: { params: { userId: string } }
-) {
-  try {
+
+
+
+export async function GET(request: Request) {
     const session = await auth();
 
-    if (!session?.user || session.user.id !== params.userId) {
-      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+    const url = new URL(request.url);
+    const userId = url.searchParams.get("userId");
+
+    if (!session?.user) {
+        return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
 
+    if (!userId) {
+        return NextResponse.json({ error: "Missing userId" }, { status: 400 });
+    }
+
+    if (session.user.id !== userId) {
+        return NextResponse.json({ error: "Forbidden" }, { status: 403 });
+    }
+
+    // Fetch appointments for the user
     const appointments = await prisma.appointment.findMany({
-      where: { userId: params.userId },
-      orderBy: { date: "asc" },
+        where: { userId },
+        orderBy: { date: "asc" },
     });
 
     return NextResponse.json({ appointments });
-  } catch (error: any) {
-    console.error("API Error:", error);
-    return NextResponse.json(
-      { error: error.message || "Something went wrong" },
-      { status: 400 }
-    );
-  }
 }
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// export async function GET(
+//   req: Request,
+//   { params }: { params: { userId: string } }
+// ) {
+//   try {
+//     const session = await auth();
+
+//     if (!session?.user || session.user.id !== params.userId) {
+//       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+//     }
+
+//     const appointments = await prisma.appointment.findMany({
+//       where: { userId: params.userId },
+//       orderBy: { date: "asc" },
+//     });
+
+//     return NextResponse.json({ appointments });
+//   } catch (error: any) {
+//     console.error("API Error:", error);
+//     return NextResponse.json(
+//       { error: error.message || "Something went wrong" },
+//       { status: 400 }
+//     );
+//   }
+// }
