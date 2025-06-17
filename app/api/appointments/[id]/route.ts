@@ -60,7 +60,12 @@ export async function PATCH(req: Request, { params }: { params: { id: string } }
 // }
 // ...existing code...
 
-export async function GET(req: Request, { params }: { params: { id: string } }) {
+
+
+export async function GET(
+    req: Request,
+    context: { params: { id: string } }
+) {
     const session = await auth();
 
     if (!session?.user) {
@@ -69,7 +74,7 @@ export async function GET(req: Request, { params }: { params: { id: string } }) 
 
     // Fetch the appointment by id
     const appointment = await prisma.appointment.findUnique({
-        where: { id: params.id },
+        where: { id: context.params.id },
     });
 
     if (!appointment) {
