@@ -10,10 +10,10 @@ export default function DateTimeDisplay() {
       setCurrentTime(new Date());
     }, 1000); // update every second
 
-    return () => clearInterval(timer); // cleanup on unmount
+    return () => clearInterval(timer); 
   }, []);
 
-  // Format: 16 jun Monday
+
   const day = currentTime.getDate();
   const month = currentTime
     .toLocaleString("en-US", { month: "short" })
@@ -21,10 +21,8 @@ export default function DateTimeDisplay() {
   const weekday = currentTime.toLocaleString("en-US", { weekday: "long" });
 
   return (
-    <div>
-      <p>
+    <>
         {day} {month} {weekday}
-      </p>
-    </div>
+    </>
   );
 }

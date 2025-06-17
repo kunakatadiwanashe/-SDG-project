@@ -62,3 +62,30 @@ export async function POST(req: Request) {
         );
     }
 }
+
+export async function GET(
+  req: Request,
+  { params }: { params: { userId: string } }
+) {
+  try {
+    const session = await auth();
+
+    if (!session?.user || session.user.id !== params.userId) {
+      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+    }
+
+    const appointments = await prisma.appointment.findMany({
+      where: { userId: params.userId },
+      orderBy: { date: "asc" },
+    });
+
+    return NextResponse.json({ appointments });
+  } catch (error: any) {
+    console.error("API Error:", error);
+    return NextResponse.json(
+      { error: error.message || "Something went wrong" },
+      { status: 400 }
+    );
+  }
+}
+

@@ -1,6 +1,7 @@
 "use client"
 import { useEffect, useState } from 'react';
 import { Notification } from '@prisma/client';
+import { Button } from './ui/button';
 
 interface NotificationListProps {
     userId: string;
@@ -61,7 +62,7 @@ export default function NotificationList({ userId }: NotificationListProps) {
             <h2 className="text-xl font-bold mb-4">Notifications</h2>
             {loading && <p>Loading notifications...</p>} {/* Show loading message */}
             {error && <p className="text-red-500">{error}</p>}
-            {notifications.length === 0 && !loading ? ( // Check if not loading
+            {(notifications?.length ?? 0) === 0 ? (
                 <p>No new notifications</p>
             ) : (
                 <ul className="space-y-2">
@@ -70,12 +71,12 @@ export default function NotificationList({ userId }: NotificationListProps) {
                             <p>{notification.message}</p>
                             <p className="text-sm text-gray-500">{new Date(notification.createdAt).toLocaleString()}</p>
                             {!notification.read && (
-                                <button 
+                                <Button 
                                     onClick={() => markAsRead(notification.id)}
                                     className="text-sm text-blue-500 hover:text-blue-700"
                                 >
                                     Mark as read
-                                </button>
+                                </Button>
                             )}
                         </li>
                     ))}

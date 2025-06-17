@@ -15,20 +15,18 @@ interface AppointmentListProps {
 }
 
 export default function AppointmentList({ userId }: AppointmentListProps) {
+    
     const [appointments, setAppointments] = useState<Appointment[]>([]);
     const [error, setError] = useState<string | null>(null);
     const [loading, setLoading] = useState<boolean>(true);
 
     useEffect(() => {
         const fetchAppointments = async () => {
-            setLoading(true);
+            if  (!userId) return
             try {
-                const response = await fetch(`/api/appointments/${userId}`);
-                if (!response.ok) {
-                    throw new Error('Failed to fetch appointments');
-                }
-                const data = await response.json();
-                setAppointments(data.appointments);
+                const res = await fetch(`/api/appointments/${userId}`);
+                const data = await res.json();
+                setAppointments(data.appointments || []);
             } catch (error) {
                 console.error('Error fetching appointments:', error);
                 setError('Failed to load appointments. Please try again later.');

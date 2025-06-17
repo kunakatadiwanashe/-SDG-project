@@ -16,11 +16,12 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <SessionProvider>
-      
-      <html>
-         <body className="pr-6"> {children} </body>
-      </html>
-    </SessionProvider>
+    <html>
+      <body suppressHydrationWarning={true}>
+        <SessionProvider>
+          {children}
+        </SessionProvider>
+      </body>
+    </html>
   );
 }
