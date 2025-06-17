@@ -1,4 +1,4 @@
-import { NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 import prisma from "@/lib/prisma";
 import { auth } from "@/auth";
 import { sendNotificationToDoctor } from "@/lib/notification";
@@ -66,69 +66,34 @@ export async function POST(req: Request) {
 
 
 
-export async function GET(request: Request) {
+export async function GET(
+  request: NextRequest,
+  context: { params: { id: string } }
+) {
+    const { id } = context.params;
     const session = await auth();
-
-    const url = new URL(request.url);
-    const userId = url.searchParams.get("userId");
 
     if (!session?.user) {
         return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
 
-    if (!userId) {
-        return NextResponse.json({ error: "Missing userId" }, { status: 400 });
+    // Fetch the appointment by id
+    const appointment = await prisma.appointment.findUnique({
+        where: { id }, // fixed: use id directly
+    });
+
+    if (!appointment) {
+        return NextResponse.json({ error: "Appointment not found" }, { status: 404 });
     }
 
-    if (session.user.id !== userId) {
+    // Optionally, check if the user is allowed to view this appointment
+    if (appointment.userId !== session.user.id) {
         return NextResponse.json({ error: "Forbidden" }, { status: 403 });
     }
 
-    // Fetch appointments for the user
-    const appointments = await prisma.appointment.findMany({
-        where: { userId },
-        orderBy: { date: "asc" },
-    });
-
-    return NextResponse.json({ appointments });
+    // Return the full appointment data
+    return NextResponse.json({ success: true, data: appointment });
 }
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-// export async function GET(
-//   req: Request,
-//   { params }: { params: { userId: string } }
-// ) {
-//   try {
-//     const session = await auth();
-
-//     if (!session?.user || session.user.id !== params.userId) {
-//       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
-//     }
-
-//     const appointments = await prisma.appointment.findMany({
-//       where: { userId: params.userId },
-//       orderBy: { date: "asc" },
-//     });
-
-//     return NextResponse.json({ appointments });
-//   } catch (error: any) {
-//     console.error("API Error:", error);
-//     return NextResponse.json(
-//       { error: error.message || "Something went wrong" },
-//       { status: 400 }
-//     );
-//   }
-// }

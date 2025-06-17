@@ -48,8 +48,11 @@ export async function PATCH(req: Request, { params }: { params: { id: string } }
 }
 
 
-export async function GET(request: NextRequest, { params }: { params: { id: string } }) {
-    const { id } = params;
+export async function GET(
+  request: NextRequest,
+  context: { params: { id: string } }
+) {
+    const { id } = context.params;
     const session = await auth();
 
     if (!session?.user) {
@@ -58,7 +61,7 @@ export async function GET(request: NextRequest, { params }: { params: { id: stri
 
     // Fetch the appointment by id
     const appointment = await prisma.appointment.findUnique({
-        where: { id: params.id },
+        where: { id }, // fixed: use id directly
     });
 
     if (!appointment) {
@@ -70,5 +73,6 @@ export async function GET(request: NextRequest, { params }: { params: { id: stri
         return NextResponse.json({ error: "Forbidden" }, { status: 403 });
     }
 
-    return NextResponse.json({ id, message: 'Appointment fetched successfully' });
+    // Return the full appointment data
+    return NextResponse.json({ success: true, data: appointment });
 }
