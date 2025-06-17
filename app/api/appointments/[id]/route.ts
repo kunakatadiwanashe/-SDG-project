@@ -2,6 +2,7 @@ import { NextResponse, NextRequest } from 'next/server';
 import prisma from "@/lib/prisma";
 import { auth } from "@/auth";
 import { sendNotificationToDoctor } from "@/lib/notification";
+   import { NextApiRequest, NextApiResponse } from 'next';
 
 export async function PATCH(req: Request, { params }: { params: { id: string } }) {
     try {
@@ -47,8 +48,8 @@ export async function PATCH(req: Request, { params }: { params: { id: string } }
 }
 
 
-export async function GET(request: NextRequest, context: { params: { id: string } }) {
-     const { id } = context.params;
+export async function GET(req: NextApiRequest, { params }: { params: { id: string } }) {
+    const { id } = params;
     const session = await auth();
 
     if (!session?.user) {
@@ -57,7 +58,7 @@ export async function GET(request: NextRequest, context: { params: { id: string 
 
     // Fetch the appointment by id
     const appointment = await prisma.appointment.findUnique({
-        where: { id: context.params.id },
+        where: { id: params.id },
     });
 
     if (!appointment) {
@@ -70,6 +71,4 @@ export async function GET(request: NextRequest, context: { params: { id: string 
     }
 
     return NextResponse.json({ success: true, data: appointment });
-    
-     return new Response(`Appointment ID: ${id}`);
 }
