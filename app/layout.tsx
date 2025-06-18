@@ -1,10 +1,14 @@
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
 import "./globals.css";
+import { Inter, Roboto } from "next/font/google";
 import Navbar from "@/components/navbar";
 import { SessionProvider } from "next-auth/react";
 
-const inter = Inter({ subsets: ["latin"] });
+const roboto = Roboto({
+  subsets: ["latin"],
+  weight: ["400", "700"],
+  variable: "--font-roboto"
+});
 
 export const metadata: Metadata = {
   title: "Cared For",
@@ -16,7 +20,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html>
+    <html  lang="en" className={`${roboto.variable} font-sans`}>
       <body suppressHydrationWarning={true}>
         <SessionProvider>
           {children}
