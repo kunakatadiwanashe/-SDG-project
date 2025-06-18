@@ -4,7 +4,7 @@ import { auth } from "@/auth";
 import { sendNotificationToDoctor } from "@/lib/notification";
 
 
-export async function PATCH(req: Request, { params }: { params: { id: string } }) {
+export async function PATCH(request: NextRequest, { params }: { params: { id: string } }) {
     try {
         const session = await auth();
         
@@ -15,7 +15,7 @@ export async function PATCH(req: Request, { params }: { params: { id: string } }
             );
         }
 
-        const body = await req.json();
+        const body = await request.json();
         const { status } = body;
 
         if (status !== "approved" && status !== "declined") {

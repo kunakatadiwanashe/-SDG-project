@@ -45,15 +45,15 @@ export default function AppointmentList({ userId }: AppointmentListProps) {
   }, [userId]);
 
   return (
-    <div className="max-w-4xl mx-auto ">
-      <div className="h-[24vh] bg-gradient-to-r from-[#005EFF] to-[#005eff7c] rounded-lg p-6 mb-6 w-full">
+    <div className="max-w-full mx-auto  ">
+      <div className="h-[24vh] bg-[url('https://res.cloudinary.com/dyikkz1ur/image/upload/v1750248490/kun/Doctor_frame_g7o8bo.png')] bg-no-repeat rounded-lg p-6 mb-6 w-full">
             <h2 className="text-xl font-bold mb-4 text-white">Appointments</h2>
             <p className="mb-6 text-sm text-white">
               See your scheduled events from your calendar events links.
             </p>
       </div>
 
-      <nav className="inline-flex space-x-4 bg-gray-50 rounded-lg p-1 text-sm font-medium text-gray-600 mb-6 select-none">
+      {/* <nav className="inline-flex space-x-4 bg-gray-50 rounded-lg p-1 text-sm font-medium text-gray-600 mb-6 select-none">
         <Button
           aria-current="page"
           className="bg-white shadow-sm rounded-lg px-4 py-2 text-gray-900"
@@ -68,14 +68,14 @@ export default function AppointmentList({ userId }: AppointmentListProps) {
           Cancelled
         </Button>
       </nav>
-      
+       */}
 
       {loading && <p>Loading appointments...</p>}
       {error && <p className="text-red-500">{error}</p>}
       {appointments.length === 0 && !loading ? (
         <p>No upcoming appointments</p>
       ) : (
-        <ul className="space-y-2">
+        <ul className="space-y-2 pl-12 pr-12">
           {appointments.map((appointment) => (
             <li
               key={appointment.id}
