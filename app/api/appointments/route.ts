@@ -66,34 +66,28 @@ export async function POST(req: Request) {
 
 
 
-export async function GET(
-  request: NextRequest,
-  context: { params: { id: string } }
-) {
-    const { id } = context.params;
-    const session = await auth();
 
-    if (!session?.user) {
-        return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
-    }
+export async function GET(request: Request) {
+  const { searchParams } = new URL(request.url);
+  const userId = searchParams.get('userId');
 
-    // Fetch the appointment by id
-    const appointment = await prisma.appointment.findUnique({
-        where: { id }, // fixed: use id directly
-    });
+  const session = await auth();
 
-    if (!appointment) {
-        return NextResponse.json({ error: "Appointment not found" }, { status: 404 });
-    }
+  if (!session?.user) {
+    return new Response('Unauthorized', { status: 401 });
+  }
+if (!userId) {
+    return Response.json({ error: "Missing userId" }, { status: 400 });
+  }
 
-    // Optionally, check if the user is allowed to view this appointment
-    if (appointment.userId !== session.user.id) {
-        return NextResponse.json({ error: "Forbidden" }, { status: 403 });
-    }
+const appointments = await prisma.appointment.findMany({
+    where: { userId },
+    orderBy: { date: 'asc' },
+  });
 
-    // Return the full appointment data
-    return NextResponse.json({ success: true, data: appointment });
+
+
+  return Response.json({ appointments });
+
+
 }
-
-
-
