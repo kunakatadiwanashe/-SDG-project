@@ -4,51 +4,54 @@ import { auth } from "@/auth";
 import { sendNotificationToDoctor } from "@/lib/notification";
 
 
-export async function PATCH(req: NextRequest, context: { params: { id: string } }) {
-    const id = context.params.id;
-    try {
-        const session = await auth();
-        
-        if (!session?.user) {
-            return NextResponse.json(
-                { error: "Unauthorized" },
-                { status: 401 }
-            );
-        }
 
-        const body = await req.json();
-        const { status } = body;
 
-        if (status !== "approved" && status !== "declined") {
-            return NextResponse.json(
-                { error: "Invalid status" },
-                { status: 400 }
-            );
-        }
-
-        const appointment = await prisma.appointment.update({
-            where: { id: context.params.id },
-            data: { status },
-        });
-
-        // Send notification to doctor
-        await sendNotificationToDoctor(appointment.userId, `Your appointment has been ${status}`);
-
-        return NextResponse.json({ success: true, data: appointment });
-
-    } catch (error: any) {
-        console.error("API Error:", error);
-        return NextResponse.json(
-            { 
-                success: false, 
-                error: error.message || "Something went wrong" 
-            },
-            { status: 400 }
-        );
+export async function PATCH(
+  request: NextRequest,
+ context: Promise<{ params: { id: string } }>
+): Promise<NextResponse> {
+  try {
+  const { params } = await context;
+  const { id } = params;
+    const session = await auth()
+    
+    if (!session?.user) {
+      return NextResponse.json(
+        { error: "Unauthorized" },
+        { status: 401 }
+      )
     }
+
+    const body = await request.json()
+    const { status } = body
+
+    if (status !== "approved" && status !== "declined") {
+      return NextResponse.json(
+        { error: "Invalid status" },
+        { status: 400 }
+      )
+    }
+
+    const appointment = await prisma.appointment.update({
+      where: { id },
+      data: { status },
+    })
+
+    await sendNotificationToDoctor(appointment.userId, `Your appointment has been ${status}`)
+
+    return NextResponse.json({ success: true, data: appointment })
+
+  } catch (error: any) {
+    console.error("API Error:", error)
+    return NextResponse.json(
+      { 
+        success: false, 
+        error: error.message || "Something went wrong" 
+      },
+      { status: 400 }
+    )
+  }
 }
-
-
 
 
 export async function GET(request: Request) {

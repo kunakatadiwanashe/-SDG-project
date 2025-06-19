@@ -1,3 +1,8 @@
-{
-  "extends": "next/core-web-vitals"
-}
+// .eslintrc.jsmodule.exports = {
+  extends: ['next', 'next/core-web-vitals'],
+  rules: {
+      linterOptions: {
+    reportUnusedDisableDirectives: true
+  }
+  }
+};
