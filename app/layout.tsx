@@ -21,6 +21,7 @@ export default function RootLayout({
 }>) {
   return (
     <html  lang="en" className={`${roboto.variable} font-sans`}>
+      <head><link rel="icon" href="/favicon.png" type="image/png" /></head>
       <body suppressHydrationWarning={true}>
         <SessionProvider>
           {children}
