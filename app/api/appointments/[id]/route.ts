@@ -4,7 +4,8 @@ import { auth } from "@/auth";
 import { sendNotificationToDoctor } from "@/lib/notification";
 
 
-export async function PATCH(request: NextRequest, { params }: { params: { id: string } }) {
+export async function PATCH(req: NextRequest, context: { params: { id: string } }) {
+    const id = context.params.id;
     try {
         const session = await auth();
         
@@ -15,7 +16,7 @@ export async function PATCH(request: NextRequest, { params }: { params: { id: st
             );
         }
 
-        const body = await request.json();
+        const body = await req.json();
         const { status } = body;
 
         if (status !== "approved" && status !== "declined") {
@@ -26,7 +27,7 @@ export async function PATCH(request: NextRequest, { params }: { params: { id: st
         }
 
         const appointment = await prisma.appointment.update({
-            where: { id: params.id },
+            where: { id: context.params.id },
             data: { status },
         });
 
