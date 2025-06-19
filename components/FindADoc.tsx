@@ -6,7 +6,7 @@ const FindADoc = () => {
     <div className="p-4">
       <div className="max-w-[1200px] mx-auto px-4 py-6 flex flex-col md:flex-row md:space-x-6 space-y-6 md:space-y-0">
         <div className="flex flex-col md:flex-row md:space-x-6 space-y-6 md:space-y-0 flex-1">
-          <div className="relative rounded-xl flex-1 min-w-[280px] max-w-[600px] h-[140px] md:h-[160px] bg-[#0052FF] overflow-hidden flex items-center px-6">
+          <div className="relative rounded-xl flex-1 min-w-[280px] max-w-[600px] h-[140px] md:h-[160px]  bg-[url('https://res.cloudinary.com/dyikkz1ur/image/upload/v1750248490/kun/Doctor_frame_g7o8bo.png')] bg-no-repeat bg-cover overflow-hidden flex items-center px-6">
             <div className="flex flex-col justify-center flex-1 max-w-[280px]">
               <h2 className="text-white text-[15px] font-semibold leading-tight mb-2">
                 Find Your Perfect Doctor
