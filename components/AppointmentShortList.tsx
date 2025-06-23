@@ -2,6 +2,7 @@
 import { useEffect, useState } from "react";
 import { Button } from "./ui/button";
 import { FaCheckCircle } from "react-icons/fa";
+import Image from "next/image";
 
 interface Appointment {
   id: string;
@@ -12,11 +13,11 @@ interface Appointment {
   status: string;
 }
 
-interface AppointmentListProps {
+interface AppointmentShortListProps {
   userId: string;
 }
 
-export default function AppointmentList({ userId }: AppointmentListProps) {
+export default function AppointmentShortList({ userId }: AppointmentShortListProps) {
 
 
 
@@ -48,36 +49,21 @@ export default function AppointmentList({ userId }: AppointmentListProps) {
     <div className="max-w-full mx-auto  ">
 
 
-      {/* <nav className="inline-flex space-x-4 bg-gray-50 rounded-lg p-1 text-sm font-medium text-gray-600 mb-6 select-none">
-        <Button
-          aria-current="page"
-          className="bg-white shadow-sm rounded-lg px-4 py-2 text-gray-900"
-        >
-          Upcoming
-        </Button>
-        <Button className="px-4 py-2 rounded-lg hover:text-gray-900">
-          Pending
-        </Button>
 
-        <Button className="px-4 py-2 rounded-lg hover:text-gray-900">
-          Cancelled
-        </Button>
-      </nav>
-       */}
 
       {loading && <p>Loading appointments...</p>}
       {error && <p className="text-red-500">{error}</p>}
       {appointments.length === 0 && !loading ? (
         <p>No upcoming appointments</p>
       ) : (
-        <ul className="space-y-2 pl-12 pr-12">
+        <ul className="space-y-2 pl-2 pr-2">
           {appointments.map((appointment) => (
             <li
               key={appointment.id}
-              className="bg-white rounded-lg shadow-sm border border-gray-100 p-4 flex flex-col sm:flex-row sm:items-center sm:space-x-6"
+              className="bg-white rounded-lg shadow-sm border border-gray-100 p-4 flex flex-col sm:flex-row sm:items-center sm:space-x-6 w-[19vw]"
               role="listitem"
             >
-              <div className="flex flex-row sm:flex-col items-center sm:items-start text-orange-600 font-semibold sm:mr-6 mb-4 sm:mb-0 min-w-[72px]">
+              <div className="flex flex-row sm:flex-col items-center sm:items-start text-orange-600 font-semibold sm:mr-6 mb-4 sm:mb-0 min-w-[20px]">
                 {(() => {
                   const dateObj = new Date(appointment.date);
                   const days = [
@@ -117,10 +103,10 @@ export default function AppointmentList({ userId }: AppointmentListProps) {
                   const timeStr = `${hours}:${minutes} ${ampm}`;
                   return (
                     <>
-                      <span className="text-base font-normal sm:text-lg">
+                      <span className="text-base font-normal sm:text-sm">
                         {dayName}
                       </span>
-                      <span className="text-3xl leading-none font-bold">
+                      <span className="text-xl leading-none font-bold">
                         {dayNum}
                       </span>
                       <span className="text-xs font-normal sm:text-sm">
@@ -131,8 +117,8 @@ export default function AppointmentList({ userId }: AppointmentListProps) {
                 })()}
               </div>
 
-              <div className="flex flex-col space-y-1 text-gray-600 text-sm min-w-[110px] sm:min-w-[140px] mr-6">
-                <div className="flex items-center space-x-2">
+              <div className="flex flex-col text-gray-600 text-sm">
+                <div className="flex items-center ">
                   <i className="far fa-clock text-gray-400 text-xs"></i>
                   {(() => {
                     const dateObj = new Date(appointment.date);
@@ -154,18 +140,6 @@ export default function AppointmentList({ userId }: AppointmentListProps) {
                 </div>
               </div>
 
-              <div className="flex-1 text-sm text-gray-900">
-                30min call meeting Peer &lt;&gt; Leslie
-                <div className="flex -space-x-2 mt-1">
-                  <img
-                    alt="Avatar of a woman with red hair smiling"
-                    className="w-6 h-6 rounded-full border-2 border-white"
-                    height="24"
-                    src="https://storage.googleapis.com/a1aa/image/02316937-3ae8-4ff3-f234-4e28c62f8528.jpg"
-                    width="24"
-                  />
-                </div>
-              </div>
 
               <h3 className="font-semibold">{appointment.title}</h3>
 

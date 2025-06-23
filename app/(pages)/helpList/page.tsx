@@ -1,6 +1,9 @@
 "use client";
 import React, { useEffect, useState } from 'react';
 import { getSession } from "next-auth/react";
+import { Button } from '@/components/ui/button';
+import DonateForm from '@/components/donate/DonateForm';
+import Link from 'next/link';
 
 // Define types for Help Request
 interface Donation {
@@ -67,6 +70,10 @@ const HelpRequestsList = () => {
                             <p className="text-sm text-gray-500">{new Date(request.createdAt).toLocaleString()}</p>
                             <p className="text-lg font-medium">{request.message}</p> {/* Display message */}
                             <p className="text-md font-semibold">Total Donations: ${Array.isArray(request.donations) ? request.donations.reduce((sum, donation) => sum + donation.amount, 0) : 0}</p>
+
+                            <Link href={`/donate`} className="text-blue-500 hover:underline">
+                                Donate
+                            </Link>
                         </li>
                     ))}
                 </ul>

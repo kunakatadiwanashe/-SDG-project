@@ -46,7 +46,7 @@ const Layout: React.FC<LayoutProps> = ({ children, user }) => {
             <FontAwesomeIcon icon={faCalendarCheck} className="mr-2" />{" "}
             Appointments
           </Link>
-          <Link href="/profile" className="flex items-center hover:underline">
+          <Link href="/helpList" className="flex items-center hover:underline">
             <FontAwesomeIcon icon={faUser} className="mr-2" /> Help People in
             Need
           </Link>
